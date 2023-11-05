@@ -295,21 +295,6 @@ func (w *window) getMonitorForWindow() *glfw.Monitor {
 	return monitor
 }
 
-func (w *window) detectScale() float32 {
-	if isWayland { // Wayland controls scale through content scaling
-		return 1.0
-	}
-	monitor := w.getMonitorForWindow()
-	if monitor == nil {
-		return 1.0
-	}
-
-	widthMm, _ := monitor.GetPhysicalSize()
-	widthPx := monitor.GetVideoMode().Width
-
-	return calculateDetectedScale(widthMm, widthPx)
-}
-
 func (w *window) moved(_ *glfw.Window, x, y int) {
 	w.processMoved(x, y)
 }
@@ -771,8 +756,8 @@ func (w *window) create() {
 		win.SetCharCallback(w.charInput)
 		win.SetFocusCallback(w.focused)
 
-		w.canvas.detectedScale = w.detectScale()
-		w.canvas.scale = w.calculatedScale()
+		w.canvas.detectedScale = w.calculatedScale()
+		w.canvas.scale = w.canvas.detectedScale
 		w.canvas.texScale = w.detectTextureScale()
 		// update window size now we have scaled detected
 		w.fitContent()

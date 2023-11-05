@@ -13,44 +13,28 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestCalculateDetectedScale(t *testing.T) {
-	lowDPI := calculateDetectedScale(300, 1600)
-	assert.Equal(t, float32(1.1288888), lowDPI)
-
-	hiDPI := calculateDetectedScale(420, 3800)
-	assert.Equal(t, float32(1.9150794), hiDPI)
-}
-
-func TestCalculateDetectedScale_Min(t *testing.T) {
-	lowDPI := calculateDetectedScale(300, 1280)
-	assert.Equal(t, float32(1), lowDPI)
-}
-
 func TestCalculateScale(t *testing.T) {
-	one := calculateScale(1.0, 1.0, 1.0)
+	one := calculateScale(1.0, 1.0)
 	assert.Equal(t, float32(1.0), one)
 
-	larger := calculateScale(1.5, 1.0, 1.0)
+	larger := calculateScale(1.5, 1.0)
 	assert.Equal(t, float32(1.5), larger)
 
-	smaller := calculateScale(0.8, 1.0, 1.0)
+	smaller := calculateScale(0.8, 1.0)
 	assert.Equal(t, float32(0.8), smaller)
 
-	hiDPI := calculateScale(0.8, 2.0, 1.0)
+	hiDPI := calculateScale(0.8, 2.0)
 	assert.Equal(t, float32(1.6), hiDPI)
 
-	hiDPIAuto := calculateScale(0.8, scaleAuto, 2.0)
-	assert.Equal(t, float32(1.6), hiDPIAuto)
-
-	large := calculateScale(1.5, 2.0, 2.0)
-	assert.Equal(t, float32(3.0), large)
+	large := calculateScale(1.5, 0)
+	assert.Equal(t, float32(1.5), large)
 }
 
 func TestCalculateScale_Round(t *testing.T) {
-	trunc := calculateScale(1.04321, 1.0, 1.0)
+	trunc := calculateScale(1.04321, 1.0)
 	assert.Equal(t, float32(1.0), trunc)
 
-	round := calculateScale(1.1, 1.1, 1.0)
+	round := calculateScale(1.1, 1.1)
 	assert.Equal(t, float32(1.2), round)
 }
 

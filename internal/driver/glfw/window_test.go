@@ -1392,23 +1392,23 @@ func TestWindow_PixelSize(t *testing.T) {
 }
 
 var scaleTests = []struct {
-	user, system, detected, expected float32
-	name                             string
+	user, system, expected float32
+	name                   string
 }{
-	{1.0, 1.0, 1.0, 1.0, "Windows with user setting 1.0"},
-	{1.5, 1.0, 1.0, 1.5, "Windows with user setting 1.5"},
+	{1.0, 1.0, 1.0, "Windows with user setting 1.0"},
+	{1.5, 1.0, 1.5, "Windows with user setting 1.5"},
 
-	{1.0, scaleAuto, 1.0, 1.0, "Linux lowDPI with user setting 1.0"},
-	{1.5, scaleAuto, 1.0, 1.5, "Linux lowDPI with user setting 1.5"},
+	{1.0, 1.0, 1.0, "Linux lowDPI with user setting 1.0"},
+	{1.5, 1.0, 1.5, "Linux lowDPI with user setting 1.5"},
 
-	{1.0, scaleAuto, 2.0, 2.0, "Linux highDPI with user setting 1.0"},
-	{1.5, scaleAuto, 2.0, 3.0, "Linux highDPI with user setting 1.5"},
+	{1.0, 2.0, 2.0, "Linux highDPI with user setting 1.0"},
+	{1.5, 2.0, 3.0, "Linux highDPI with user setting 1.5"},
 }
 
 func TestWindow_calculateScale(t *testing.T) {
 	for _, tt := range scaleTests {
 		t.Run(tt.name, func(t *testing.T) {
-			calculated := calculateScale(tt.user, tt.system, tt.detected)
+			calculated := calculateScale(tt.user, tt.system)
 			assert.Equal(t, tt.expected, calculated)
 		})
 	}

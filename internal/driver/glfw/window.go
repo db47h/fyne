@@ -115,7 +115,7 @@ func (w *window) SetCloseIntercept(callback func()) {
 }
 
 func (w *window) calculatedScale() float32 {
-	return calculateScale(userScale(), fyne.CurrentDevice().SystemScaleForWindow(w), w.detectScale())
+	return calculateScale(userScale(), fyne.CurrentDevice().SystemScaleForWindow(w))
 }
 
 func (w *window) detectTextureScale() float32 {
@@ -296,11 +296,11 @@ func (w *window) processMoved(x, y int) {
 		w.xpos, w.ypos = x, y
 	}
 
-	if w.canvas.detectedScale == w.detectScale() {
+	if w.canvas.scale == w.calculatedScale() {
 		return
 	}
 
-	w.canvas.detectedScale = w.detectScale()
+	w.canvas.detectedScale = w.calculatedScale()
 	go w.canvas.reloadScale()
 }
 
